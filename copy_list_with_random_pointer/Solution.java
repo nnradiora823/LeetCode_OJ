@@ -8,35 +8,36 @@ public class Solution {
 	public RandomListNode copyRandomList(RandomListNode head) {
         // IMPORTANT: Please reset any member data you declared, as
         // the same Solution instance will be reused for each test case.
-        if(head==null)
+		if(head==null)
             return null;
         HashMap<RandomListNode, RandomListNode> map = new HashMap<RandomListNode, RandomListNode>();
-        RandomListNode cur = head;
         RandomListNode newHead = new RandomListNode(head.label);
-        map.put(head,newHead);
-        RandomListNode newCur = newHead;
-        while(cur!=null){
-            cur = cur.next;
-            if(cur!=null){
-                newCur.next = new RandomListNode(cur.label);
-                newCur = newCur.next;
-                map.put(cur,newCur);
+        map.put(head, newHead);
+        RandomListNode ptr1 = head;
+        RandomListNode ptr2 = newHead;
+        while(ptr1!=null){
+            ptr1 = ptr1.next;
+            if(ptr1!=null){
+                ptr2.next = new RandomListNode(ptr1.label);
+                ptr2 = ptr2.next;
+                map.put(ptr1, ptr2);
             }
-            else{
-                newCur.next = null;
-            }
+            else
+                ptr2.next = null;
         }
-        cur = head;
-        newCur = newHead;
-        while(cur!=null){
-            if(cur.random==null){
-                newCur.random = null;
+        
+        //copy random pointer
+        ptr1 = head;
+        ptr2 = newHead;
+        while(ptr1!=null){
+            if(ptr1.random==null){
+                ptr2.random = null;
             }
             else{
-                newCur.random = map.get(cur.random);
+                ptr2.random = map.get(ptr1.random);
             }
-            cur = cur.next;
-            newCur = newCur.next;
+            ptr1 = ptr1.next;
+            ptr2 = ptr2.next;
         }
         return newHead;
     }
